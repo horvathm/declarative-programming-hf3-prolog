@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0047)http://dp.iit.bme.hu/dp-current/dp16a-khf1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>DP16A 1. kis házi feladat</title>
+   <link rel="StyleSheet" href="./DP16A 1. kis házi feladat_files/syntax.css" type="text/css" media="screen">
+</head>
+<body>
+
+<table width="100%">
+<tbody><tr>
+<td width="50%">BME Villamosmérnöki és Informatikai Kar
+<br>Mérnök-informatikus alapszak</td>
+
+<td>
+<div align="right">Nappali tagozat</div>
+
+<div align="right">2016/2017-es tanév, őszi félév</div>
+</td>
+</tr>
+</tbody></table>
+
+<center>
+<h1>Deklaratív programozás</h1>
+<h2>1. kis házi feladat: Mátrix feldarabolása </h2>
+1.0 változat
+<br>Utolsó módosítás: 2016-09-16<br>
+Kiadás: 2016-09-16<br>
+Beadási határidők a <a href="http://dp.iit.bme.hu/dp-current/index.html#hf">fõoldalon</a>.
+</center>
+
+<h3>A feladat</h3>
+
+<p>A feladat egy mátrix kisebb mátrixokra való feldarabolása, és
+a kis mátrixok elemeit tartalmazó listák előállítása.
+</p>
+
+<p>A feladat paramétere egy <i>(R,C)</i> számpár, ahol
+<i>R</i>, ill. <i>C</i>
+a kis mátrixok sorainak, ill. oszlopainak a számát adja meg.</p>
+
+<p>
+Egy <i>M</i> mátrix <i>(R,C)</i> paraméterű feldarabolását a
+következőképpen végezzük el:
+</p>
+
+<ol>
+<li> Az első <i>R</i> sor után húzunk egy vízszintes elválasztó vonalat, majd minden
+   további <i>R</i> sor után is.
+
+</li><li> Az első <i>C</i> oszlop után húzunk egy függőleges elválasztó vonalat, majd
+   minden további <i>C</i> oszlop után is.
+
+</li><li> Az elválasztó vonalak által határolt minden egyes, nem üres kis mátrix elemeiből
+   sorfolytonosan egy-egy listát képezünk.
+
+</li><li> A kis mátrixok elemeiből az előző pont szerint képzett listákat
+   egyetlen listába gyűjtjük össze, tetszőleges sorrendben.
+</li></ol>
+
+<p>
+Az így előállított listák listáját nevezzük az <i>M</i> mátrix <i>(R,C)</i>
+paraméterű feldarabolásának.
+</p>
+
+<p>
+Írjon olyan Prolog-eljárást, illetve Erlang-függvényt, amely előállítja
+egy  <i>M</i> mátrix <i>(R,C)</i> paraméterű feldarabolását!
+</p>
+
+<p>
+A mátrixot – mindkét nyelven – sorok listájaként adjuk meg; az első
+listaelem felel meg a mátrix első sorának s.í.t. A mátrix minden egyes sorát az adott
+sorban levő mátrixelemek listájaként ábrázoljuk; a lista első eleme
+tartalmazza az adott sor első elemét s.í.t.
+</p>
+<p>
+Feltételezheti (tehát nem kell ellenőriznie), hogy a mátrix minden sora
+azonos számú elemből áll; ezt a számot nevezzük a mátrix oszlopszámának.
+Feltételezheti, hogy a mátrix sorainak és oszlopainak a száma legalább 1.
+Végül feltételezheti, hogy a feldarabolás paraméterében megadott <i>R</i>
+és <i>C</i> mennyiségek pozitív egész számok (azaz <i>R,C≥1</i>).
+</p>
+<p>
+A feldarabolás eredménye egy olyan lista, amelynek elemei a bemenetként
+megadott mátrix elemeiből képzett, nem üres listák. Az utóbbi listák hossza
+nem feltétlenül egyezik meg.
+</p>
+
+<h3>Prolog-specifikációk</h3>
+
+<p>
+Írjon Prolog-eljárást <code>feldarabolasa/3</code> néven egy tetszőleges
+mátrix adott paraméterű feldarabolására! A mátrix elemei
+tetszőleges Prolog-kifejezések lehetnek.
+</p>
+<p>
+A feldarabolás paraméterét a `<code>-</code>´ operátorral képzett <code>R-C</code>
+Prolog-kifejezéssel adjuk meg.
+</p>
+<p>
+A <code>feldarabolasa/3</code> első, bemenő argumentuma a mátrix, második,
+bemenő argumentuma a feldarabolás paramétere, míg harmadik, kimenő argumentuma a
+feldarabolás eredménye.
+</p>
+<p>
+A <code>feldarabolasa/3</code> eljárás argumentumaival kapcsolatos elvárásokat az
+alábbi típuskommentekben formálisan is leírjuk (a Mercury típusleíró nyelvének
+segítségével), majd megadjuk az eljárás fejkommentjét.
+</p>
+<pre><span class="comment">% :- type matrix == list(row).
+% :- type row == list(any).
+% :- type parameter ---&gt; subRows-subCols.
+% :- type subRows == int.
+% :- type subCols == int.
+% :- pred feldarabolasa(+matrix, +parameter, ?list(list(any))).
+% feldarabolasa(Mx, P, LL): Az LL lista az Mx mátrix P paraméterű feldarabolása.
+</span></pre>
+
+<h3>Erlang-specifikációk</h3>
+
+Írjon Erlang-függvényt <code>khf1:feldarabolasa/2</code> néven egy tetszőleges
+mátrix adott paraméterű feldarabolására!
+
+<pre><span class="comment">%% @type matrix() = [row()].
+%% @type row() = [any()].
+%% @type parameter() = {subRows(), subCols()}.
+%% @type subRows() = integer().
+%% @type subCols() = integer().
+%% @spec khf1:feldarabolasa(Mx::matrix(), P::parameter()) -&gt; LL::[[any()]].
+%%   Az LL lista az Mx mátrix P paraméterű feldarabolása.
+</span></pre>
+
+A programot tartalmazó modul attribútumai ezek legyenek:
+
+<pre>-module(khf1).
+-author('email@unit.org.hu').
+-vsn('year-mm-dd').
+-export([feldarabolasa/2]).
+<span class="comment">%-compile(export_all).</span>
+</pre>
+
+<h3>Példák</h3>
+
+<h4>Prolog</h4>
+
+<pre>| ?- feldarabolasa([[a,b,  c,d],
+                    [e,f,  g,h]], 2-2, LL).
+LL = [[a,b,e,f],
+      [c,d,g,h]] ? ;
+no
+| ?- feldarabolasa([[a,b,  c,d],
+                    [e,f,  g,h],
+
+		    [i,j,  k,l],
+                    [m,n,  o,p]], 2-2, LL).
+LL = [[a,b,e,f],
+      [c,d,g,h],
+      [i,j,m,n],
+      [k,l,o,p]] ? ;
+no
+| ?- feldarabolasa([[a,b,c,  d],
+                    [e,f,g,  h],
+                    [i,j,k,  l],
+
+                    [m,n,o,  p]], 3-3, LL).
+LL = [[a,b,c,e,f,g,i,j,k],
+      [d,h,l],
+      [m,n,o],
+      [p]] ? ;
+no
+| ?- feldarabolasa([[a,b,  c,d],
+                    [e,f,  g,h],
+		    [i,j,  k,l],
+
+		    [m,n,  o,p]], 3-2, LL).
+LL = [[a,b,e,f,i,j],
+      [c,d,g,h,k,l],
+      [m,n],
+      [o,p]] ? ;
+no
+| ?- feldarabolasa([[a,b,c,  d],
+		    [e,f,g,  h],
+
+		    [i,j,k,  l],
+		    [m,n,o,  p]], 2-3, LL).
+LL = [[a,b,c,e,f,g],
+      [d,h],
+      [i,j,k,m,n,o],
+      [l,p]] ? ;
+no
+| ?- feldarabolasa([[a,b,  c,d],
+
+                    [e,f,  g,h],
+
+		    [i,j,  k,l],
+
+		    [m,n,  o,p]], 1-2, LL).
+LL = [[a,b],
+      [c,d],
+      [e,f],
+      [g,h],
+      [i,j],
+      [k,l],
+      [m,n],
+      [o,p]] ? ;
+no
+| ?-
+</pre>
+
+<h4>Erlang</h4>
+
+<pre>1&gt; c(khf1).
+{ok,khf1}
+2&gt; khf1:feldarabolasa([[a,b,c,d],
+2&gt;                     [e,f,g,h]], {2, 2}).
+[[a,b,e,f],[c,d,g,h]]
+3&gt; khf1:feldarabolasa([[a,b,c,d],
+3&gt;                     [e,f,g,h],
+3&gt;                     [i,j,k,l],
+3&gt;                     [m,n,o,p]], {2, 2}).
+[[a,b,e,f],
+ [c,d,g,h],
+ [i,j,m,n],
+ [k,l,o,p]]
+4&gt; khf1:feldarabolasa([[a,b,c,d],
+4&gt;                     [e,f,g,h],
+4&gt;                     [i,j,k,l],
+4&gt;                     [m,n,o,p]], {3, 3}).
+[[a,b,c,e,f,g,i,j,k],
+ [d,h,l],
+ [m,n,o],
+ [p]]
+5&gt; khf1:feldarabolasa([[a,b,c,d],
+5&gt;                     [e,f,g,h],
+5&gt;                     [i,j,k,l],
+5&gt;                     [m,n,o,p]], {3, 2}).
+[[a,b,e,f,i,j],
+ [c,d,g,h,k,l],
+ [m,n],
+ [o,p]]
+6&gt; khf1:feldarabolasa([[a,b,c,d],
+6&gt;                     [e,f,g,h],
+6&gt;                     [i,j,k,l],
+6&gt;                     [m,n,o,p]], {2, 3}).
+[[a,b,c,e,f,g],
+ [d,h],
+ [i,j,k,m,n,o],
+ [l,p]]
+7&gt; khf1:feldarabolasa([[a,b,c,d],
+7&gt;                     [e,f,g,h],
+7&gt;                     [i,j,k,l],
+7&gt;                     [m,n,o,p]], {1, 2}).
+[[a,b],
+ [c,d],
+ [e,f],
+ [g,h],
+ [i,j],
+ [k,l],
+ [m,n],
+ [o,p]]
+</pre>
+
+<p>
+A kiírásnak megfelelően mindkét nyelven jók azok a programok is,
+amelyek a külső lista elemeit a fentiekhez képest más sorrendben adják vissza.
+A belső listák elemeinek a sorrendjét azonban előírtuk:
+minden egyes ilyen elemnek egy-egy kis mátrix elemeit <u>sorfolytonosan</u>
+kell felsorolnia.
+</p>
+
+<h3>Tudnivalók a beadásról</h3>
+
+<p>
+A programok készülhetnek MS Windows alatt is, de Linux alatt is mûködniük
+kell.  A beadott programokat Linux környezetben a SICStus Prolog 4.3.x,
+ill. az Erlang/OTP R16B rendszerekkel teszteljük.
+</p>
+
+Ennek a kis házi feladatnak a beadása ugyan nem kötelező, azonban a
+félévközi követelmények teljesítéséhez a félév során legalább három
+kisházifeladat-megoldást – közülük legalább egyet Prolog és legalább egyet
+Erlang nyelven – sikeresen be kell adni. Sikeres az a megoldás, amelyik az
+összes tesztesetre helyes választ ad. Ha ezt a kis házi feladatot mindkét
+nyelven sikeresen beadja, az természetesen két megoldásnak számit.
+
+<p>
+A programot az <a href="http://dp.iit.bme.hu/ets">Elektronikus
+Tanársegéd</a> (ETS) segítségével weben keresztül lehet beadni, a <strong>HF
+beadás</strong> menüpont alatt. <em>Ez az egyes számú kis
+házi feladat, ennek megfelelően az ETS a beküldött megoldást
+</em> <code>khf1.pl</code>, ill. <code>khf1.erl</code> <em>néven tárolja el és hivatkozik rá.</em>
+(A feltöltendő állomány neve tetszőleges lehet, az ETS átnevezi.)
+
+</p><p>Az osztályzat megállapításakor a határidőre beadott, minden
+tesztesetre helyesen működő feladatmegoldásért plusz 1-1 pont jár.
+</p>
+
+
+<h3>Gyakorló feladatok</h3>
+
+A házi feladat megoldásának előkészítésére a következő kisebb gyakorló
+feladatok megoldását javasoljuk.
+
+<ol>
+
+<li>Lista szeletének (i. és j. sorszámú elemek közötti részének)
+    előállítása.
+</li>
+
+<li>Sorfolytonosan, illetve oszlopfolytonosan tárolt mátrix i. sorának
+    előallítása.
+</li>
+
+<li>Sorfolytonosan, illetve oszlopfolytonosan tárolt mátrix j.
+    oszlopának előállítása.
+</li>
+
+<li>Sorok listájaként tárolt mátrix sorfolytonosan, illetve
+    oszlopfolytonosan tárolt változatának előállítása.
+</li>
+
+<li>Sorfolytonosan, illetve oszlopfolytonosan tárolt mátrix sorok
+    listájaként tárolt változatának előállítása.
+</li>
+
+</ol>
+
+
+
+
+
+
+
+
+</body></html>
